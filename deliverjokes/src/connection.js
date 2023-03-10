@@ -1,25 +1,24 @@
-const mysql = require('mysql');
 const express = require('express');
+const conn = require('database/dbConnection')
 const app = express();
 
-
-// database connection
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'Birthday@16',
-    database: 'hotel'
-});
-
-db.connect(function (err) {
-    if (err) {
-        throw err;
-    }
-    console.log('Connected to Database!!!')
-});
+// // database connection
+// const db = mysql.createConnection({
+//     host: 'localhost',
+//     user: 'root',
+//     password: 'Birthday@16',
+//     database: 'hotel'
+// });
+//
+// db.connect(function (err) {
+//     if (err) {
+//         throw err;
+//     }
+//     console.log('Connected to Database!!!')
+// });
 
 function executeQuery(sql, cb) {
-    db.query(sql, function (error, result, fields) {
+    conn.query(sql, function (error, result, fields) {
         if (error) {
             throw error;
         }
