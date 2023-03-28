@@ -1,11 +1,11 @@
 const express = require('express')
 const route = express.Router();
 
-const { executeQuery } = require('../controllers/controller')
+const { getData } = require('../controllers/controller')
 
 route.get(
     '/get',
-    executeQuery
+    getData
 )
 
 module.exports = route;
