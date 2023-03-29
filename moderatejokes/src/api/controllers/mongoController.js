@@ -1,6 +1,7 @@
 const axios = require('axios');
 const Joke = require("../../../../submitjokes/src/api/models/models");
 const MONGODB_MICROSERVICE_URL = 'http://127.0.0.1:8083';
+const cors = require('cors')
 
 async function readData(req, res) {
     try {
@@ -50,4 +51,4 @@ async function deleteData(req, res) {
         }
 }
 
-module.exports = { readData,createData, updateData, deleteData };
+module.exports = { readData, updateData, deleteData };

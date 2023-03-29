@@ -4,6 +4,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const route = require("./api/routes/routes");
 const dotenv = require('dotenv');
+const cors = require('cors');
 
 // Load environment variables from .env file
 dotenv.config({path: './config/.env'});
@@ -22,6 +23,7 @@ mongoose.connect(mongoURI, {
 
 // Use body-parser middleware to parse JSON requests
 app.use(bodyParser.json());
+app.use(cors())
 app.use("",route)
 
 app.listen(8083, function () {

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Moderate</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+<body>
+<table id="jokes-table" class="table is-bordered is-fullwidth">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Joke</th>
+    <th>Type</th>
+  </tr>
+  </thead>
+  <tbody id="table-body">
+  </tbody>
+</table>
+
+<script>
+  async function fetchData() {
+    try {
+      const response = await fetch('http://127.0.0.1:8083/get');
+      const data = await response.json();
+      populateTable(data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
+
+  function populateTable(data) {
+    const tableBody = document.getElementById('table-body');
+    data.forEach(item => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+                    <td>${item._id}</td>
+                    <td>${item.content}</td>
+                    <td>${item.type}</td>
+                    `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        fetchData();
+    </script>
+</body>
+</html>

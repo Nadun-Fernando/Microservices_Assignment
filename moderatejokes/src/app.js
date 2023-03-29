@@ -63,6 +63,8 @@
 const express = require('express');
 const mysqlRoutes = require('./api/routes/sqlroutes');
 const mongodbRoutes = require('./api/routes/mongoroutes');
+const cors =require('cors')
+const bodyParser = require('body-parser')
 
 const app = express();
 app.use(express.json());
@@ -70,7 +72,12 @@ app.use(express.json());
 app.use(mysqlRoutes);
 app.use(mongodbRoutes);
 
-const PORT = process.env.PORT || 5002;
+app.use(bodyParser.json()) // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true }))
+
+app.use(cors());
+
+// const PORT = process.env.PORT || 5002;
 app.listen(8084, function () {
     console.log('Listening to Port : 8084...');
     // console.log()

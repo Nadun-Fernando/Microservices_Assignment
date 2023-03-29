@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!--  <meta name="viewport" content="width=device-width, initial-scale=1">-->
+  <title>Moderator Login</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+<body>
+<div style="width: 50%; height: 50%; align-content: center; padding: 25px; margin-top: 15%; margin-left: 25%" class="card">
+  <form action="login.php" method="post">
+    <div class="field">
+      <p class="control has-icons-left has-icons-right">
+        <input class="input" type="email" id="email" placeholder="Email">
+        <span class="icon is-small is-left">
+      <i class="fas fa-envelope"></i>
+    </span>
+        <span class="icon is-small is-right">
+      <i class="fas fa-check"></i>
+    </span>
+      </p>
+    </div>
+    <div class="field">
+      <p class="control has-icons-left">
+        <input class="input" type="password" id="password" placeholder="Password">
+        <span class="icon is-small is-left">
+      <i class="fas fa-lock"></i>
+    </span>
+      </p>
+    </div>
+    <div class="field">
+      <p class="control">
+        <button class="button is-success" type="submit" value="Login">
+          Login
+        </button>
+      </p>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>
