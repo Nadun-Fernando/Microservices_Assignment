@@ -1,4 +1,7 @@
 const Joke = require('../models/models')
+
+const axios = require('axios');
+const MYSQL_MICROSERVICE_URL = 'http://127.0.0.1:8082';
 // Define the endpoint for submitting a new joke
 async function submit(req, res) {
     const { content, type } = req.body;
@@ -70,9 +73,21 @@ async function deleteJoke(req, res) {
         });
     }
 }
+
+async function getTypes(req, res) {
+    try {
+        const response = await axios.get(`${MYSQL_MICROSERVICE_URL}/gettype`);
+        console.log(response);
+        res.json(response.data);
+    } catch (error) {
+        res.status(error.response.status).json(error.response.data);
+    }
+}
+
 module.exports = {
     submit,
     getAll,
     update,
-    deleteJoke
+    deleteJoke,
+    getTypes
 }

@@ -13,16 +13,19 @@
     <th>ID</th>
     <th>Joke</th>
     <th>Type</th>
+    <th>Action</th>
   </tr>
   </thead>
   <tbody id="table-body">
   </tbody>
 </table>
 
+<button id="logout-button" class="button is-danger">Logout</button>
+
 <script>
   async function fetchData() {
     try {
-      const response = await fetch('http://127.0.0.1:8083/get');
+      const response = await fetch('http://127.0.0.1:8084/read');
       const data = await response.json();
       populateTable(data);
     } catch (error) {
@@ -38,12 +41,86 @@
                     <td>${item._id}</td>
                     <td>${item.content}</td>
                     <td>${item.type}</td>
+                    <td>
+                        <button class="button is-small is-info" onclick="editJoke('${item._id}', '${item.content}', '${item.type}')">Edit</button>
+                        <button class="button is-small is-primary" onclick="submitJoke('${item._id}','${item.content}', '${item.type}')">Submit</button>
+                        <button class="button is-small is-danger" onclick="deleteJoke('${item._id}')">Delete</button>
+                    </td>
                     `;
-                tableBody.appendChild(row);
-            });
-        }
+      tableBody.appendChild(row);
+    });
+  }
 
+  async function deleteJoke(id) {
+    try {
+      const response = await fetch('http://127.0.0.1:8084/delete' + id, {
+        method: 'DELETE',
+      });
+      if (response.ok) {
+        console.log('Joke deleted successfully');
+        // Clear the current table data
+        const tableBody = document.getElementById('table-body');
+        tableBody.innerHTML = '';
+        // Refresh table data after successful deletion
         fetchData();
-    </script>
+      } else {
+        console.error('Error deleting joke:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error deleting joke:', error);
+    }
+  }
+
+  fetchData();
+
+
+  function editJoke(id, content, type) {
+    const editUrl = `edit.html?id=${encodeURIComponent(id)}&content=${encodeURIComponent(content)}&type=${encodeURIComponent(type)}`;
+    window.open(editUrl, '_blank');
+  }
+
+  async function submitJoke(id, jokeContent, jokeType) {
+    try {
+      const response = await fetch('http://127.0.0.1:8084/update_mysql', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ content: jokeContent, joketype: jokeType }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log(result);
+        deleteJoke(id); // Call the deleteJoke function after a successful submit
+      } else {
+        console.error('Error submitting joke:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error submitting joke:', error);
+    }
+  }
+
+  //   function submitItem(id) {
+  // // Submit item with the given ID
+  //     console.log('Submit item with ID:', id);
+  //   }
+  window.addEventListener('message', (event) => {
+    if (event.data === 'jokeUpdated') {
+      // Clear the current table data
+      const tableBody = document.getElementById('table-body');
+      tableBody.innerHTML = '';
+      // Refresh table data after successful update
+      fetchData();
+    }
+  });
+
+  document.getElementById('logout-button').addEventListener('click', () => {
+    // Perform any logout actions if needed (e.g., clearing session data)
+    // Redirect to the login page
+    window.location.href = 'layout.html';
+  });
+
+</script>
 </body>
 </html>

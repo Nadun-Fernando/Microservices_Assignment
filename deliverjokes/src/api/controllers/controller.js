@@ -1,8 +1,6 @@
 const express = require('express')
 const conn = require('../../config/dbConnection')
 
-
-// const sql = 'INSERT INTO joke.jokes (type_id, setup, punchline) VALUES ((select id from joke.joke_types where type=${joketype}), ?, ?)'
 async function getData(req, res) {
     const sqlquery = 'SELECT * FROM joke.jokes';
     conn.query(sqlquery, function (error, result) {
@@ -65,14 +63,15 @@ async function createType(req, res) {
 }
 
 async function getRandom(req, res) {
-    // const { joketype } = req.body;
-    const sqlquery = `SELECT setup, punchline from joke.jokes ORDER BY RAND() LIMIT 1`;
+    const { joketype } = req.body;
+    const sqlquery = `SELECT setup, punchline from joke.jokes, joke.joke_types where joke_types.type = ? and jokes.type_id = joke_types.id ORDER BY RAND() LIMIT 1`;
 
-    conn.query(sqlquery,function (error, result) {
+    conn.query(sqlquery, [joketype],function (error, result) {
         if (error) {
             throw error;
         }
         res.json(result)
+        console.log(joketype);
         console.log(result);
 
     })

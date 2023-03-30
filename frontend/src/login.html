@@ -4,39 +4,67 @@
   <meta charset="UTF-8">
   <!--  <meta name="viewport" content="width=device-width, initial-scale=1">-->
   <title>Moderator Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 </head>
 <body>
-<div style="width: 50%; height: 50%; align-content: center; padding: 25px; margin-top: 15%; margin-left: 25%" class="card">
-  <form action="login.php" method="post">
-    <div class="field">
-      <p class="control has-icons-left has-icons-right">
-        <input class="input" type="email" id="email" placeholder="Email">
-        <span class="icon is-small is-left">
-      <i class="fas fa-envelope"></i>
-    </span>
-        <span class="icon is-small is-right">
-      <i class="fas fa-check"></i>
-    </span>
-      </p>
-    </div>
-    <div class="field">
-      <p class="control has-icons-left">
-        <input class="input" type="password" id="password" placeholder="Password">
-        <span class="icon is-small is-left">
-      <i class="fas fa-lock"></i>
-    </span>
-      </p>
-    </div>
-    <div class="field">
-      <p class="control">
-        <button class="button is-success" type="submit" value="Login">
-          Login
-        </button>
-      </p>
-    </div>
-  </form>
-</div>
+<section class="section">
+  <div class="container">
+    <h1 class="title">Login</h1>
+    <form id="login-form">
+      <div class="field">
+        <label class="label" for="username">Username</label>
+        <div class="control">
+          <input class="input" type="text" id="username" name="username" required>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label" for="password">Password</label>
+        <div class="control">
+          <input class="input" type="password" id="password" name="password" required>
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <button class="button is-link" type="submit">Login</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
 
+<script>
+  document.getElementById('login-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    try {
+      const response = await fetch('http://127.0.0.1:8084/auth', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result.length > 0) {
+          console.log('User authenticated');
+          // Redirect to the table page
+          window.location.href = 'jokes.html';
+        } else {
+          console.log('Incorrect username or password');
+        }
+      } else {
+        console.error('Error during authentication:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error during authentication:', error);
+    }
+  });
+</script>
 </body>
 </html>

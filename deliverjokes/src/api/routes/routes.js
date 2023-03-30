@@ -24,7 +24,7 @@ route.post(
     createType
 )
 
-route.get(
+route.post(
     '/getrandom',
     getRandom
 )

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Joke</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+<body>
+<form id="edit-joke-form">
+  <input type="hidden" id="joke-id">
+  <div class="field">
+    <label class="label" for="joke-content">Joke Content</label>
+    <div class="control">
+      <input class="input" type="text" id="joke-content" required>
+    </div>
+  </div>
+  <div class="field">
+    <label class="label" for="joke-type">Joke Type</label>
+    <div class="control">
+      <input class="input" type="text" id="joke-type" required>
+    </div>
+  </div>
+  <div class="field">
+    <div class="control">
+      <button class="button is-primary" type="submit">Update Joke</button>
+    </div>
+  </div>
+</form>
+
+<script>
+  // Load the data from the URL parameters
+  const urlParams = new URLSearchParams(window.location.search);
+  document.getElementById('joke-id').value = urlParams.get('id');
+  document.getElementById('joke-content').value = urlParams.get('content');
+  document.getElementById('joke-type').value = urlParams.get('type');
+
+  // Update the joke when the form is submitted
+  document.getElementById('edit-joke-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const id = document.getElementById('joke-id').value;
+    const content = document.getElementById('joke-content').value;
+    const type = document.getElementById('joke-type').value;
+
+    try {
+      const response = await fetch(`http://127.0.0.1:8084/update${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ content, type }),
+      });
+
+      if (response.ok) {
+        console.log('Joke updated successfully');
+        window.opener.postMessage('jokeUpdated', '*');
+        window.close();
+        // Close the tab after successful update
+        window.close();
+      } else {
+        console.error('Error updating joke:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error updating joke:', error);
+    }
+  });
+</script>
+</body>
+</html>
