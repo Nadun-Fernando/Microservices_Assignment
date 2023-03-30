@@ -1,6 +1,6 @@
 const axios = require('axios');
 const Joke = require("../../../../submitjokes/src/api/models/models");
-const MONGODB_MICROSERVICE_URL = 'http://127.0.0.1:8083';
+const MONGODB_MICROSERVICE_URL = 'http://104.208.80.87:8083';
 const cors = require('cors')
 
 async function readData(req, res) {
@@ -11,23 +11,6 @@ async function readData(req, res) {
             res.status(error.response.status).json(error.response.data);
         }
 }
-
-// async function createData(req, res) {
-//     const { content, type } = req.body;
-//
-//     // Create a new joke object based on the request body
-//     const newJoke = new Joke({
-//         content,
-//         type
-//     });
-//
-//     try {
-//         const response = await axios.get(`${MONGODB_MICROSERVICE_URL}/post`, newJoke);
-//         res.status(response.status).json(response.data);
-//     } catch (error) {
-//         res.status(error.response.status).json(error.response.data);
-//     }
-// }
 
 async function updateData(req, res) {
     const { content, type } = req.body;

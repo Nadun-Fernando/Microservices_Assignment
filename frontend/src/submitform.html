@@ -80,7 +80,7 @@
 <script>
     async function fetchJokeTypes() {
         try {
-            const response = await fetch('http://127.0.0.1:8083/types');
+            const response = await fetch('http://104.208.80.87:8083/types');
             const data = await response.json();
             //const jokeTypes = JSON.parse(JSON.stringify(data));
             console.log("-----");
@@ -110,7 +110,7 @@
         const type = document.getElementById('joke-type').value;
 
         try {
-            const response = await fetch('http://127.0.0.1:8083/post', {
+            const response = await fetch('http://104.208.80.87:8083/post', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

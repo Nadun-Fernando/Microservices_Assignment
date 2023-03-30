@@ -1,7 +1,7 @@
 const Joke = require('../models/models')
 
 const axios = require('axios');
-const MYSQL_MICROSERVICE_URL = 'http://127.0.0.1:8082';
+const MYSQL_MICROSERVICE_URL = 'http://20.239.183.65:8082';
 // Define the endpoint for submitting a new joke
 async function submit(req, res) {
     const { content, type } = req.body;

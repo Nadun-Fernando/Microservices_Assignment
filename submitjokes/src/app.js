@@ -1,4 +1,4 @@
-const mongoose = require('mongoose').default
+const mongoose = require('mongoose')
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
@@ -8,7 +8,7 @@ const cors = require('cors');
 
 // Load environment variables from .env file
 dotenv.config({path: './config/.env'});
-const mongoURI = process.env.MONGO_URI;
+const mongoURI = "mongodb+srv://Nadun:Birthday16@cluster0.gezfpl9.mongodb.net/jokesdb?retryWrites=true&w=majority";
 
 // Create a MongoDB Atlas database connection
 mongoose.connect(mongoURI, {
