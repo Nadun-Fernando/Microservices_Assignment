@@ -33,17 +33,24 @@
     }
   }
 
+  function escapeQuotes(str) {
+    return str.replace(/'/g, "\\'");
+  }
+
   function populateTable(data) {
     const tableBody = document.getElementById('table-body');
     data.forEach(item => {
+      const escapedContent = escapeQuotes(item.content);
+      const escapedType = escapeQuotes(item.type);
+
       const row = document.createElement('tr');
       row.innerHTML = `
                     <td>${item._id}</td>
                     <td>${item.content}</td>
                     <td>${item.type}</td>
                     <td>
-                        <button class="button is-small is-info" onclick="editJoke('${item._id}', '${item.content}', '${item.type}')">Edit</button>
-                        <button class="button is-small is-primary" onclick="submitJoke('${item._id}','${item.content}', '${item.type}')">Submit</button>
+                        <button class="button is-small is-info" onclick="editJoke('${item._id}', '${escapedContent}', '${escapedType}')">Edit</button>
+                        <button class="button is-small is-primary" onclick="submitJoke('${item._id}','${escapedContent}', '${escapedType}')">Submit</button>
                         <button class="button is-small is-danger" onclick="deleteJoke('${item._id}')">Delete</button>
                     </td>
                     `;
@@ -118,7 +125,7 @@
   document.getElementById('logout-button').addEventListener('click', () => {
     // Perform any logout actions if needed (e.g., clearing session data)
     // Redirect to the login page
-    window.location.href = 'viewjoke.html';
+    window.location.href = 'index.html';
   });
 
 </script>

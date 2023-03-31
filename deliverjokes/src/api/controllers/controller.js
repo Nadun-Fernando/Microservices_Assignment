@@ -34,7 +34,7 @@ async function createJoke(req, res) {
 
     const sqlquery = `INSERT INTO joke.jokes (type_id, setup, punchline) VALUES 
                                                        (
-                                                        (select id from joke.joke_types where type=?), ?, ?)`;
+                                                        (select id from joke.joke_types where type=(?)), (?), (?))`;
 
     conn.query(sqlquery, [joketype, contentArray[0], contentArray[1]],function (error, result) {
         if (error) {
